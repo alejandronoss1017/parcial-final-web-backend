@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,18 +24,22 @@ public class CANCBookController {
     private CANCBookService bookService;
 
     @GetMapping(path = "/all")
-    public ResponseEntity<Iterable<CANCBookDto>> getAllBooks() throws Exception {
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<Iterable<CANCBook>> getAllBooks() throws Exception {
 
-        Iterable<CANCBookDto> books = bookService.getAllBooks();
+        System.out.println("Getting all books");
+        Iterable<CANCBook> books = bookService.getAllBooks();
 
-        if (books == null) {
-            return ResponseEntity.notFound().build();
-        }
+        System.out.println("Books: " + books.toString());
+
         return ResponseEntity.ok(books);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<CANCBookDto> getBookById(Long id) throws Exception {
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<CANCBookDto> getBookById(@PathVariable Long id) throws Exception {
+
+        System.out.println("Getting book by id: " + id);
 
         CANCBookDto book = bookService.getBookById(id);
 
@@ -45,6 +50,7 @@ public class CANCBookController {
     }
 
     @PostMapping(path = "/save")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<CANCBook> saveBook(@RequestBody CANCBookDto book) throws Exception {
 
         CANCBook bookSaved = bookService.saveBook(book);
@@ -56,6 +62,7 @@ public class CANCBookController {
     }
 
     @PutMapping(path = "/update")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<CANCBook> updateBook(@RequestBody CANCBookDto book) throws Exception {
 
         CANCBook bookUpdated = bookService.updateBook(book);
@@ -67,6 +74,7 @@ public class CANCBookController {
     }
 
     @PostMapping(path = "/delete/{id}")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<Void> deleteBook(Long id) throws Exception {
 
         bookService.deleteBook(id);

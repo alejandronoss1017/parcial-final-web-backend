@@ -1,8 +1,5 @@
 package com.canc.finalweb.services;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,14 +19,13 @@ public class CANCBookService {
     private CANCBookRepository bookRepository;
 
     @Transactional
-    public Iterable<CANCBookDto> getAllBooks() throws Exception {
+    public Iterable<CANCBook> getAllBooks() throws Exception {
 
-        List<CANCBook> list = (List<CANCBook>) bookRepository.findAll();
+        Iterable<CANCBook> list = bookRepository.findAll();
 
-        // Map the list to a list of DTOs
-        List<CANCBookDto> listDto = list.stream().map(CANCBookMapper.INSTANCE::bookToDto).collect(Collectors.toList());
+        System.out.println("Books: " + list.toString());
 
-        return listDto;
+        return list;
 
     }
 
